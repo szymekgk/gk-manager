@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101318">
+  <meta name="description" content="GK MANAGER — zarządzanie budowami i pracami GK">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  <title>GK MANAGER</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><div class="logo">GK</div><div><strong>GK MANAGER</strong><small>Panel wykonawcy</small></div></div>
+    <span class="status"><i></i> WERSJA TESTOWA</span>
+  </header>
+  <main>
+    <section class="welcome">
+      <p class="eyebrow">TWOJA FIRMA • TWOJE BUDOWY</p>
+      <h1>Wszystko pod<br><span>kontrolą.</span></h1>
+      <p class="muted">Zarządzaj budowami, materiałami, ekipą i kosztami w jednym miejscu.</p>
+    </section>
+    <section class="summary">
+      <div class="stat"><span>Aktywne budowy</span><b id="activeCount">0</b></div>
+      <div class="stat"><span>Zadania otwarte</span><b id="taskCount">0</b></div>
+      <div class="stat"><span>Wpisane budowy</span><b id="allCount">0</b></div>
+    </section>
+    <nav class="tabs" aria-label="Moduły">
+      <button class="tab active" data-view="home">Start</button>
+      <button class="tab" data-view="builds">Budowy</button>
+      <button class="tab" data-view="calc">Kalkulator</button>
+      <button class="tab" data-view="team">Ekipa</button>
+      <button class="tab" data-view="more">Więcej</button>
+    </nav>
+    <section id="view-home" class="view active">
+      <div class="section-head"><div><p class="eyebrow">CENTRUM DOWODZENIA</p><h2>Przegląd</h2></div><span class="pill">Dzisiaj</span></div>
+      <div class="panel"><h3>Szybkie działania</h3><div class="quick">
+        <button class="quick-btn" data-go="builds"><b>＋</b><span>Dodaj budowę</span></button>
+        <button class="quick-btn" data-go="calc"><b>▦</b><span>Kalkulator GK</span></button>
+        <button class="quick-btn" data-go="team"><b>♙</b><span>Dodaj pracownika</span></button>
+      </div></div>
+      <div class="panel"><h3>Ostatnie budowy</h3><div id="recentBuilds" class="empty">Nie masz jeszcze budów. Dodaj pierwszą, aby rozpocząć.</div></div>
+      <div class="notice"><b>Uwaga — wersja startowa</b><p>Dane są zapisywane lokalnie w tej przeglądarce na tym urządzeniu. Synchronizacja między urządzeniami i konta pracowników zostaną dodane po podłączeniu bazy danych.</p></div>
+    </section>
+    <section id="view-builds" class="view">
+      <div class="section-head"><div><p class="eyebrow">REALIZACJE</p><h2>Budowy</h2></div></div>
+      <form id="buildForm" class="panel form">
+        <h3>Dodaj budowę</h3>
+        <label>Nazwa budowy<input id="buildName" required placeholder="np. Mieszkanie — Kraków"></label>
+        <div class="two"><label>Klient<input id="client" placeholder="Nazwa klienta"></label><label>Miasto<input id="city" placeholder="Miejscowość"></label></div>
+        <label>Status<select id="buildStatus"><option>Planowana</option><option>W trakcie</option><option>Zakończona</option></select></label>
+        <button class="primary" type="submit">Zapisz budowę</button>
+      </form>
+      <div id="buildList" class="stack"></div>
+    </section>
+    <section id="view-calc" class="view">
+      <div class="section-head"><div><p class="eyebrow">MATERIAŁY</p><h2>Kalkulator ścianki GK</h2></div></div>
+      <form id="calcForm" class="panel form">
+        <label>Długość ścianki (m)<input id="length" type="number" min="0.1" step="0.1" value="8" required></label>
+        <label>Wysokość (m)<input id="height" type="number" min="0.1" step="0.01" value="2.8" required></label>
+        <div class="two"><label>Rozstaw CW (cm)<select id="spacing"><option value="60">60</option><option value="40">40</option></select></label><label>Warstwy na stronę<select id="layers"><option value="2">2</option><option value="1">1</option></select></label></div>
+        <label>Szerokość płyty (mm)<select id="boardWidth"><option value="1200">1200</option><option value="1250">1250</option></select></label>
+        <button class="primary" type="submit">Oblicz orientacyjnie</button>
+      </form>
+      <div id="calcResult" class="panel result"><span class="muted">Wprowadź wymiary, aby zobaczyć szacunkowe zapotrzebowanie.</span></div>
+      <p class="footnote">Wynik orientacyjny, nie projekt wykonawczy ani zatwierdzony dobór systemowy. Nie uwzględnia otworów, nadproży, narożników, wzmocnień, dylatacji ani szczegółowego rozkroju.</p>
+    </section>
+    <section id="view-team" class="view">
+      <div class="section-head"><div><p class="eyebrow">LUDZIE</p><h2>Ekipa</h2></div></div>
+      <form id="workerForm" class="panel form"><h3>Dodaj pracownika</h3><label>Imię i nazwisko<input id="workerName" required placeholder="Imię i nazwisko"></label><label>Rola<input id="workerRole" placeholder="np. Monter GK"></label><button class="primary" type="submit">Dodaj do ekipy</button></form>
+      <div id="workerList" class="stack"></div>
+    </section>
+    <section id="view-more" class="view">
+      <div class="section-head"><div><p class="eyebrow">USTAWIENIA</p><h2>Więcej</h2></div></div>
+      <div class="panel"><h3>Profil technologiczny</h3><p class="muted">Domyślny standard roboczy: CW/UW 75 mm, rozstaw 60 cm, płyty 1200 × 2000 mm, 2 warstwy z każdej strony. Ustawienia należy zweryfikować dla konkretnego systemu.</p></div>
+      <div class="panel"><h3>Dane aplikacji</h3><p class="muted">Możesz wyeksportować kopię danych z tego urządzenia.</p><button id="exportBtn" class="secondary">Eksportuj kopię danych</button><button id="clearBtn" class="danger">Usuń dane lokalne</button></div>
+      <div class="panel"><h3>Informacje</h3><p class="muted">GK MANAGER • wersja 0.1.0 • PWA</p></div>
+    </section>
+  </main>
+  <footer>GK MANAGER <span>•</span> Narzędzie dla wykonawców GK</footer>
+  <script src="/app.js"></script>
+</body>
+</html>
